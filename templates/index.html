@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ get_text('title') }}</title>
+    <style>
+        :root {
+            /* Light Theme */
+            --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-secondary: rgba(255, 255, 255, 0.95);
+            --bg-tertiary: #f8f9fa;
+            --text-primary: #2c3e50;
+            --text-secondary: #666;
+            --border-color: #e0e6ed;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --accent: #667eea;
+            --high: #27ae60;
+            --medium: #f39c12;
+            --low: #e67e22;
+            --questionable: #e74c3c;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme */
+            --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --bg-secondary: rgba(30, 30, 50, 0.95);
+            --bg-tertiary: #2a2a3e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --border-color: #404060;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --accent: #7b68ee;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px var(--shadow);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--text-primary) 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .language-switcher {
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn, .theme-btn, .mode-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .lang-btn:hover, .theme-btn:hover, .mode-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .lang-btn.active {
+            background: rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .stats-bar {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .main-content {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .left-panel, .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .input-section {
+            background: var(--bg-tertiary);
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        textarea, input[type="url"] {
+            width: 100%;
+            padding: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        textarea {
+            min-height: 200px;
+        }
+
+        input[type="url"] {
+            min-height: auto;
+            height: 60px;
+        }
+
+        textarea:focus, input[type="url"]:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            background: var(--bg-tertiary);
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .analyze-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .analyze-btn, .save-btn {
+            background: linear-gradient(135deg, var(--accent) 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .analyze-btn:hover, .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .analyze-btn:active, .save-btn:active {
+            transform: translateY(0);
+        }
+
+        .analyze-btn:disabled, .save-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, var(--high) 0%, #2ecc71 100%);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .results-section {
+            background: var(--bg-tertiary);
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .results-header h2 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .credibility-display {
+            background: var(--bg-secondary);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .credibility-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            flex-direction: column;
+        }
+
+        .credibility-circle.high {
+            background: linear-gradient(135deg, var(--high), #2ecc71);
+        }
+
+        .credibility-circle.medium {
+            background: linear-gradient(135deg, var(--medium), #e67e22);
+        }
+
+        .credibility-circle.low {
+            background: linear-gradient(135deg, var(--low), #d35400);
+        }
+
+        .credibility-circle.questionable {
+            background: linear-gradient(135deg, var(--questionable), #c0392b);
+        }
+
+        .score-text {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .score-emoji {
+            font-size: 2rem;
+        }
+
+        .classification {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .classification.high { color: var(--high); }
+        .classification.medium { color: var(--medium); }
+        .classification.low { color: var(--low); }
+        .classification.questionable { color: var(--questionable); }
+
+        .confidence-display {
+            text-align: center;
+            background: var(--bg-tertiary);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .confidence-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--questionable) 0%, var(--medium) 50%, var(--high) 100%);
+            transition: width 0.3s ease;
+        }
+
+        .breakdown-scores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px var(--shadow);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .breakdown-item {
+            padding: 15px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .breakdown-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .breakdown-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .breakdown-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .breakdown-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .breakdown-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .breakdown-fill.quality { background: var(--accent); }
+        .breakdown-fill.factual { background: var(--high); }
+        .breakdown-fill.source { background: var(--medium); }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px var(--shadow);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .detail-item {
+            padding: 15px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .detail-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .detail-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .search-section {
+            background: var(--bg-tertiary);
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .search-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, var(--accent) 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .search-results {
+            max-height: 400px;
+            overflow-y: auto;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .search-result-item {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .search-result-item:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-text {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            line-height: 1.4;
+            max-height: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .result-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .result-credibility {
+            padding: 4px 8px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+        }
+
+        .result-credibility.high {
+            background: var(--high);
+        }
+
+        .result-credibility.medium {
+            background: var(--medium);
+        }
+
+        .result-credibility.low {
+            background: var(--low);
+        }
+
+        .result-credibility.questionable {
+            background: var(--questionable);
+        }
+
+        .example-content {
+            margin-top: 20px;
+            background: var(--bg-tertiary);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .example-content h3 {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .example-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            margin: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .example-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .recommendations {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        .recommendations h4 {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .recommendation-item {
+            padding: 10px 15px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .issues-detected {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        .issues-detected h4 {
+            color: var(--questionable);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .issue-item {
+            padding: 10px 15px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--questionable);
+            color: var(--text-primary);
+        }
+
+        .url-info {
+            background: var(--bg-secondary);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .url-info strong {
+            color: var(--text-primary);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .breakdown-scores, .details-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .header-controls {
+                position: static;
+                justify-content: center;
+                margin-bottom: 20px;
+                flex-wrap: wrap;
+            }
+
+            .analyze-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-controls {
+                flex-direction: column;
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .input-tabs {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .breakdown-scores, .details-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-controls {
+                gap: 8px;
+            }
+            
+            .lang-btn, .theme-btn, .mode-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="container">
+        <div class="header">
+            <div class="header-controls">
+                <div class="language-switcher">
+                    <a href="/set_language/de" class="lang-btn {% if lang == 'de' %}active{% endif %}">🇩🇪 DE</a>
+                    <a href="/set_language/en" class="lang-btn {% if lang == 'en' %}active{% endif %}">🇺🇸 EN</a>
+                    <a href="/set_language/fr" class="lang-btn {% if lang == 'fr' %}active{% endif %}">🇫🇷 FR</a>
+                    <a href="/set_language/es" class="lang-btn {% if lang == 'es' %}active{% endif %}">🇪🇸 ES</a>
+                </div>
+                <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+            </div>
+            <h1>🔍 CredibilityGuard</h1>
+            <p>{{ get_text('subtitle') }}</p>
+            
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalAnalyses">{{ stats.get('total_analyses', 0) }}</div>
+                    <div class="stat-label">{{ get_text('total_analyses') }}</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="avgCredibility">{{ "%.1f"|format(stats.get('average_credibility', 0.5) * 100) }}%</div>
+                    <div class="stat-label">Ø {{ get_text('credibility_score') }}</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="highCredibilityPct">
+                        {% set total_count = stats.get('total_analyses', 0) %}
+                        {% if total_count > 0 %}
+                            {{ "%.0f"|format((stats.get('credibility_distribution', {}).get('high', 0) / total_count) * 100) }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+                    </div>
+                    <div class="stat-label">{{ get_text('credibility_high') }}</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">{{ get_text('database_status') }}</div>
+                    <div class="stat-label">✅ Online</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="input-section">
+                    <div class="input-tabs">
+                        <button class="tab-btn active" onclick="switchTab('text')">📝 {{ get_text('content_analysis') }}</button>
+                        <button class="tab-btn" onclick="switchTab('url')">🌐 {{ get_text('url_analysis') }}</button>
+                    </div>
+
+                    <div id="textTab" class="tab-content active">
+                        <div class="input-group">
+                            <label for="contentInput">{{ get_text('analyze_content') }}</label>
+                            <textarea 
+                                id="contentInput" 
+                                placeholder="{{ get_text('placeholder') }}"
+                                maxlength="10000"
+                            ></textarea>
+                        </div>
+                        
+                        <div class="analyze-controls">
+                            <button id="analyzeBtn" class="analyze-btn">
+                                🔍 {{ get_text('analyze_btn') }}
+                            </button>
+                            
+                            <button id="saveBtn" class="save-btn" style="display: none;">
+                                💾 {{ get_text('save_analysis') }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="urlTab" class="tab-content">
+                        <div class="input-group">
+                            <label for="urlInput">{{ get_text('analyze_content') }}</label>
+                            <input 
+                                type="url" 
+                                id="urlInput" 
+                                placeholder="{{ get_text('url_placeholder') }}"
+                            />
+                        </div>
+                        
+                        <div class="analyze-controls">
+                            <button id="analyzeUrlBtn" class="analyze-btn">
+                                🌐 {{ get_text('analyze_url_btn') }}
+                            </button>
+                            
+                            <button id="saveUrlBtn" class="save-btn" style="display: none;">
+                                💾 {{ get_text('save_analysis') }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="example-content">
+                        <h3>{{ get_text('examples_title') }}</h3>
+                        <button class="example-btn" onclick="loadExample('high_quality')">
+                            🟢 {{ get_text('high_quality_example') }}
+                        </button>
+                        <button class="example-btn" onclick="loadExample('medium_quality')">
+                            🟡 {{ get_text('medium_quality_example') }}
+                        </button>
+                        <button class="example-btn" onclick="loadExample('low_quality')">
+                            🔴 {{ get_text('low_quality_example') }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="search-section">
+                    <h2>🔍 {{ get_text('search_title') }}</h2>
+                    <div class="search-controls">
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            class="search-input"
+                            placeholder="{{ get_text('search_placeholder') }}"
+                        >
+                        <button id="searchBtn" class="search-btn">
+                            🔍 {{ get_text('search_btn') }}
+                        </button>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">
+                        {{ get_text('search_hint') }}
+                    </p>
+                    
+                    <div id="searchResults" class="search-results" style="display: none;">
+                        <!-- Search results will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="results-section">
+                    <div class="results-header">
+                        <h2>📊 {{ get_text('results_title') }}</h2>
+                    </div>
+
+                    <div id="loading" class="loading">
+                        <div class="spinner"></div>
+                        <p id="loadingText">{{ get_text('loading') }}</p>
+                    </div>
+
+                    <div id="results" style="display: none;">
+                        <div id="urlInfo" class="url-info" style="display: none;">
+                            <strong>URL:</strong> <span id="analyzedUrl"></span><br>
+                            <strong>Title:</strong> <span id="analyzedTitle"></span><br>
+                            <strong>Author:</strong> <span id="analyzedAuthor"></span><br>
+                            <strong>Domain:</strong> <span id="analyzedDomain"></span>
+                        </div>
+
+                        <div class="credibility-display">
+                            <div id="credibilityCircle" class="credibility-circle">
+                                <div class="score-text" id="scoreText">--%</div>
+                                <div class="score-emoji" id="scoreEmoji">🤔</div>
+                            </div>
+                            <div id="classification" class="classification">{{ get_text('no_analysis') }}</div>
+                            
+                            <div class="confidence-display">
+                                <div class="detail-label">{{ get_text('confidence') }}</div>
+                                <div class="confidence-bar">
+                                    <div class="confidence-fill" id="confidenceFill" style="width: 0%"></div>
+                                </div>
+                                <div id="confidenceText">--</div>
+                            </div>
+                        </div>
+
+                        <div class="breakdown-scores">
+                            <div class="breakdown-item">
+                                <div class="breakdown-label">{{ get_text('content_quality') }}</div>
+                                <div class="breakdown-value" id="qualityScore">--%</div>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill quality" id="qualityFill" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-label">{{ get_text('factual_accuracy') }}</div>
+                                <div class="breakdown-value" id="factualScore">--%</div>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill factual" id="factualFill" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-label">{{ get_text('source_reliability') }}</div>
+                                <div class="breakdown-value" id="sourceScore">--%</div>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill source" id="sourceFill" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <div class="detail-label">{{ get_text('words') }}</div>
+                                <div id="wordCount" class="detail-value">-</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">{{ get_text('sentences') }}</div>
+                                <div id="sentenceCount" class="detail-value">-</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">{{ get_text('sources_found') }}</div>
+                                <div id="sourcesFound" class="detail-value">-</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">{{ get_text('readability_score') }}</div>
+                                <div id="readabilityScore" class="detail-value">-</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">{{ get_text('bias_level') }}</div>
+                                <div id="biasLevel" class="detail-value">-</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">{{ get_text('processing_time') }}</div>
+                                <div id="processingTime" class="detail-value">-- ms</div>
+                            </div>
+                        </div>
+
+                        <div id="recommendationsSection" class="recommendations" style="display: none;">
+                            <h4>💡 {{ get_text('recommendations') }}</h4>
+                            <div id="recommendationsList"></div>
+                        </div>
+
+                        <div id="issuesSection" class="issues-detected" style="display: none;">
+                            <h4>⚠️ Issues Detected</h4>
+                            <div id="issuesList"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Lokalisierte Texte für JavaScript
+        const TRANSLATIONS = {
+            {% if lang == 'de' %}
+            credibility_high: "{{ get_text('credibility_high') }}",
+            credibility_medium: "{{ get_text('credibility_medium') }}",
+            credibility_low: "{{ get_text('credibility_low') }}",
+            credibility_questionable: "{{ get_text('credibility_questionable') }}",
+            saved_successfully: "{{ get_text('saved_successfully') }}",
+            search_results: "{{ get_text('search_results') }}",
+            no_results: "{{ get_text('no_results') }}",
+            loading: "{{ get_text('loading') }}",
+            loading_url: "{{ get_text('loading_url') }}"
+            {% elif lang == 'en' %}
+            credibility_high: "{{ get_text('credibility_high') }}",
+            credibility_medium: "{{ get_text('credibility_medium') }}",
+            credibility_low: "{{ get_text('credibility_low') }}",
+            credibility_questionable: "{{ get_text('credibility_questionable') }}",
+            saved_successfully: "{{ get_text('saved_successfully') }}",
+            search_results: "{{ get_text('search_results') }}",
+            no_results: "{{ get_text('no_results') }}",
+            loading: "{{ get_text('loading') }}",
+            loading_url: "{{ get_text('loading_url') }}"
+            {% elif lang == 'fr' %}
+            credibility_high: "{{ get_text('credibility_high') }}",
+            credibility_medium: "{{ get_text('credibility_medium') }}",
+            credibility_low: "{{ get_text('credibility_low') }}",
+            credibility_questionable: "{{ get_text('credibility_questionable') }}",
+            saved_successfully: "{{ get_text('saved_successfully') }}",
+            search_results: "{{ get_text('search_results') }}",
+            no_results: "{{ get_text('no_results') }}",
+            loading: "{{ get_text('loading') }}",
+            loading_url: "{{ get_text('loading_url') }}"
+            {% else %}
+            credibility_high: "{{ get_text('credibility_high') }}",
+            credibility_medium: "{{ get_text('credibility_medium') }}",
+            credibility_low: "{{ get_text('credibility_low') }}",
+            credibility_questionable: "{{ get_text('credibility_questionable') }}",
+            saved_successfully: "{{ get_text('saved_successfully') }}",
+            search_results: "{{ get_text('search_results') }}",
+            no_results: "{{ get_text('no_results') }}",
+            loading: "{{ get_text('loading') }}",
+            loading_url: "{{ get_text('loading_url') }}"
+            {% endif %}
+        };
+
+        // DOM Elemente
+        const contentInput = document.getElementById('contentInput');
+        const urlInput = document.getElementById('urlInput');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const analyzeUrlBtn = document.getElementById('analyzeUrlBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const saveUrlBtn = document.getElementById('saveUrlBtn');
+        const loading = document.getElementById('loading');
+        const loadingText = document.getElementById('loadingText');
+        const results = document.getElementById('results');
+        const credibilityCircle = document.getElementById('credibilityCircle');
+        const scoreText = document.getElementById('scoreText');
+        const scoreEmoji = document.getElementById('scoreEmoji');
+        const classification = document.getElementById('classification');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const searchResults = document.getElementById('searchResults');
+
+        // State
+        let darkMode = false;
+        let currentAnalysis = null;
+        let activeTab = 'text';
+
+        // Event Listeners
+        analyzeBtn.addEventListener('click', () => analyzeContent('text'));
+        analyzeUrlBtn.addEventListener('click', () => analyzeContent('url'));
+        saveBtn.addEventListener('click', () => saveAnalysis('text'));
+        saveUrlBtn.addEventListener('click', () => saveAnalysis('url'));
+        searchBtn.addEventListener('click', searchContent);
+        
+        contentInput.addEventListener('input', function() {
+            analyzeBtn.disabled = this.value.length === 0;
+            saveBtn.style.display = 'none';
+        });
+
+        urlInput.addEventListener('input', function() {
+            analyzeUrlBtn.disabled = this.value.length === 0;
+            saveUrlBtn.style.display = 'none';
+        });
+
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchContent();
+            }
+        });
+
+        // Tab Switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            event.target.classList.add('active');
+            
+            activeTab = tabName;
+            
+            // Reset UI
+            saveBtn.style.display = 'none';
+            saveUrlBtn.style.display = 'none';
+            results.style.display = 'none';
+        }
+
+        // Theme Control
+        function toggleTheme() {
+            darkMode = !darkMode;
+            document.body.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+            
+            const themeBtn = document.querySelector('.theme-btn');
+            themeBtn.textContent = darkMode ? '☀️' : '🌙';
+            
+            localStorage.setItem('darkMode', darkMode);
+        }
+
+        // Load saved preferences
+        function loadPreferences() {
+            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (savedDarkMode) {
+                darkMode = true;
+                document.body.setAttribute('data-theme', 'dark');
+                document.querySelector('.theme-btn').textContent = '☀️';
+            }
+        }
+
+        // Beispiel-Inhalte laden
+        async function loadExample(type) {
+            try {
+                const response = await fetch(`/api/example/${type}`);
+                const data = await response.json();
+                
+                if (data.content) {
+                    contentInput.value = data.content;
+                    analyzeBtn.disabled = false;
+                    saveBtn.style.display = 'none';
+                    
+                    // Switch to text tab
+                    switchTab('text');
+                    document.querySelector('.tab-btn').click();
+                }
+            } catch (error) {
+                console.error('Fehler beim Laden des Beispiel-Inhalts:', error);
+            }
+        }
+
+        // Content Analysis
+        async function analyzeContent(type) {
+            const isUrl = type === 'url';
+            const input = isUrl ? urlInput : contentInput;
+            const content = input.value.trim();
+            const analyzeButton = isUrl ? analyzeUrlBtn : analyzeBtn;
+            const saveButton = isUrl ? saveUrlBtn : saveBtn;
+            
+            if ((isUrl && content.length < 10) || (!isUrl && content.length < 10)) {
+                alert(isUrl ? 
+                    'Bitte geben Sie eine gültige URL ein.' : 
+                    'Inhalt ist zu kurz. Mindestens 10 Zeichen erforderlich.');
+                return;
+            }
+
+            // UI States
+            analyzeButton.disabled = true;
+            loading.style.display = 'block';
+            loadingText.textContent = isUrl ? TRANSLATIONS.loading_url : TRANSLATIONS.loading;
+            results.style.display = 'none';
+            saveButton.style.display = 'none';
+
+            const startTime = Date.now();
+
+            try {
+                const endpoint = isUrl ? '/api/analyze_url' : '/api/analyze';
+                const payload = isUrl ? { url: content, save: false } : { content: content, save: false };
+
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                
+                if (result.error) {
+                    throw new Error(result.error);
+                }
+
+                const processingTime = Date.now() - startTime;
+                currentAnalysis = result;
+                displayResults(result, processingTime, isUrl);
+
+            } catch (error) {
+                console.error('Analyse-Fehler:', error);
+                alert(`Fehler bei der Analyse: ${error.message}`);
+            } finally {
+                loading.style.display = 'none';
+                analyzeButton.disabled = false;
+            }
+        }
+
+        // Ergebnisse anzeigen
+        function displayResults(result, clientProcessingTime, isUrl = false) {
+            // URL-Info anzeigen falls URL-Analyse
+            const urlInfo = document.getElementById('urlInfo');
+            if (isUrl && result.url) {
+                document.getElementById('analyzedUrl').textContent = result.url;
+                document.getElementById('analyzedTitle').textContent = result.title || 'Nicht verfügbar';
+                document.getElementById('analyzedAuthor').textContent = result.author || 'Nicht verfügbar';
+                document.getElementById('analyzedDomain').textContent = result.domain || 'Unbekannt';
+                urlInfo.style.display = 'block';
+            } else {
+                urlInfo.style.display = 'none';
+            }
+
+            // Hauptscore
+            const score = Math.round(result.credibility_score * 100);
+            scoreText.textContent = `${score}%`;
+            
+            // Emoji basierend auf Classification
+            const emojis = {
+                'high': '🟢',
+                'medium': '🟡', 
+                'low': '🟠',
+                'questionable': '🔴'
+            };
+            scoreEmoji.textContent = emojis[result.classification] || '🤔';
+            
+            // CSS Klassen
+            credibilityCircle.className = 'credibility-circle';
+            classification.className = 'classification';
+            
+            const classType = result.classification;
+            credibilityCircle.classList.add(classType);
+            classification.classList.add(classType);
+
+            // Texte
+            classification.textContent = TRANSLATIONS[`credibility_${classType}`] || classType;
+
+            // Confidence
+            const confidencePercent = Math.round(result.confidence * 100);
+            document.getElementById('confidenceFill').style.width = `${confidencePercent}%`;
+            document.getElementById('confidenceText').textContent = `${confidencePercent}%`;
+
+            // Breakdown Scores
+            const qualityPercent = Math.round(result.content_quality_score * 100);
+            const factualPercent = Math.round(result.factual_accuracy_score * 100);
+            const sourcePercent = Math.round(result.source_reliability_score * 100);
+
+            document.getElementById('qualityScore').textContent = `${qualityPercent}%`;
+            document.getElementById('qualityFill').style.width = `${qualityPercent}%`;
+
+            document.getElementById('factualScore').textContent = `${factualPercent}%`;
+            document.getElementById('factualFill').style.width = `${factualPercent}%`;
+
+            document.getElementById('sourceScore').textContent = `${sourcePercent}%`;
+            document.getElementById('sourceFill').style.width = `${sourcePercent}%`;
+
+            // Detail-Metriken
+            document.getElementById('wordCount').textContent = result.word_count || '-';
+            document.getElementById('sentenceCount').textContent = result.sentence_count || '-';
+            document.getElementById('sourcesFound').textContent = result.sources_found || '0';
+            document.getElementById('readabilityScore').textContent = 
+                result.readability_score ? Math.round(result.readability_score * 100) + '%' : '-';
+            document.getElementById('biasLevel').textContent = 
+                result.bias_level ? Math.round(result.bias_level * 100) + '%' : '-';
+            
+            const serverTime = result.processing_time ? Math.round(result.processing_time * 1000) : 0;
+            document.getElementById('processingTime').textContent = `${serverTime}ms`;
+
+            // Recommendations
+            const recommendationsSection = document.getElementById('recommendationsSection');
+            const recommendationsList = document.getElementById('recommendationsList');
+            if (result.recommendations && result.recommendations.length > 0) {
+                recommendationsList.innerHTML = '';
+                result.recommendations.forEach(rec => {
+                    const item = document.createElement('div');
+                    item.className = 'recommendation-item';
+                    item.textContent = rec;
+                    recommendationsList.appendChild(item);
+                });
+                recommendationsSection.style.display = 'block';
+            } else {
+                recommendationsSection.style.display = 'none';
+            }
+
+            // Issues
+            const issuesSection = document.getElementById('issuesSection');
+            const issuesList = document.getElementById('issuesList');
+            if (result.issues_detected && result.issues_detected.length > 0) {
+                issuesList.innerHTML = '';
+                result.issues_detected.forEach(issue => {
+                    const item = document.createElement('div');
+                    item.className = 'issue-item';
+                    item.textContent = issue;
+                    issuesList.appendChild(item);
+                });
+                issuesSection.style.display = 'block';
+            } else {
+                issuesSection.style.display = 'none';
+            }
+
+            // Save Button anzeigen
+            const saveButton = isUrl ? saveUrlBtn : saveBtn;
+            saveButton.style.display = 'inline-block';
+
+            // Ergebnisse anzeigen
+            results.style.display = 'block';
+        }
+
+        // Analyse speichern
+        async function saveAnalysis(type) {
+            if (!currentAnalysis) {
+                alert('Keine Analyse zum Speichern vorhanden');
+                return;
+            }
+
+            const saveButton = type === 'url' ? saveUrlBtn : saveBtn;
+            saveButton.disabled = true;
+
+            try {
+                const response = await fetch('/api/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(currentAnalysis)
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(TRANSLATIONS.saved_successfully);
+                    saveButton.style.display = 'none';
+                    
+                    // Update Statistiken
+                    updateStatistics();
+                } else {
+                    throw new Error(result.error || 'Unbekannter Fehler');
+                }
+
+            } catch (error) {
+                console.error('Speicherfehler:', error);
+                alert(`Fehler beim Speichern: ${error.message}`);
+            } finally {
+                saveButton.disabled = false;
+            }
+        }
+
+        // Content-Suche
+        async function searchContent() {
+            const query = searchInput.value.trim();
+
+            try {
+                const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+                const data = await response.json();
+                
+                displaySearchResults(data.results, data.query);
+
+            } catch (error) {
+                console.error('Suchfehler:', error);
+                alert(`Suchfehler: ${error.message}`);
+            }
+        }
+
+        // Suchergebnisse anzeigen
+        function displaySearchResults(results, query) {
+            searchResults.innerHTML = '';
+            
+            if (results.length === 0) {
+                searchResults.innerHTML = `
+                    <div class="no-results">
+                        ${TRANSLATIONS.no_results}
+                    </div>
+                `;
+            } else {
+                results.forEach(result => {
+                    const item = document.createElement('div');
+                    item.className = 'search-result-item';
+                    
+                    const truncatedContent = result.content.length > 200 ? 
+                        result.content.substring(0, 200) + '...' : 
+                        result.content;
+                    
+                    const date = new Date(result.created_at).toLocaleDateString();
+                    const score = Math.round(result.credibility_score * 100);
+                    
+                    let urlInfo = '';
+                    if (result.url) {
+                        urlInfo = `<div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 5px;">🌐 ${result.url}</div>`;
+                    }
+                    
+                    item.innerHTML = `
+                        ${urlInfo}
+                        <div class="result-text">${truncatedContent}</div>
+                        <div class="result-meta">
+                            <span>${date}</span>
+                            <span class="result-credibility ${result.classification}">
+                                ${TRANSLATIONS[`credibility_${result.classification}`]} (${score}%)
+                            </span>
+                        </div>
+                    `;
+                    
+                    item.addEventListener('click', () => {
+                        if (result.url) {
+                            urlInput.value = result.url;
+                            switchTab('url');
+                            analyzeUrlBtn.disabled = false;
+                        } else {
+                            contentInput.value = result.content;
+                            switchTab('text');
+                            analyzeBtn.disabled = false;
+                        }
+                        saveBtn.style.display = 'none';
+                        saveUrlBtn.style.display = 'none';
+                    });
+                    
+                    searchResults.appendChild(item);
+                });
+            }
+            
+            searchResults.style.display = 'block';
+        }
+
+        // Statistiken aktualisieren
+        async function updateStatistics() {
+            try {
+                const response = await fetch('/api/statistics');
+                const stats = await response.json();
+                
+                document.getElementById('totalAnalyses').textContent = stats.total_analyses || 0;
+                document.getElementById('avgCredibility').textContent = `${(stats.average_credibility * 100).toFixed(1)}%`;
+                
+                const highCount = stats.credibility_distribution?.high || 0;
+                const totalCount = stats.total_analyses || 0;
+                const highPct = totalCount > 0 ? Math.round((highCount / totalCount) * 100) : 0;
+                document.getElementById('highCredibilityPct').textContent = `${highPct}%`;
+                
+            } catch (error) {
+                console.error('Statistik-Fehler:', error);
+            }
+        }
+
+        // Initialisierung
+        document.addEventListener('DOMContentLoaded', function() {
+            analyzeBtn.disabled = true;
+            analyzeUrlBtn.disabled = true;
+            loadPreferences();
+            
+            // Leere Suche für alle Ergebnisse
+            searchContent();
+        });
+    </script>
+</body>
+</html>

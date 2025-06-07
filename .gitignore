@@ -1,0 +1,414 @@
+# CredibilityGuard .gitignore
+# ===================================================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.conda/
+
+# Database Files
+*.db
+*.sqlite
+*.sqlite3
+credibility_database.db
+credibility_database.db-*
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Environment Variables & Configuration
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+config.local.py
+secrets.json
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE & Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.sublime-project
+.sublime-workspace
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+
+# Model Files & Caches
+models/
+.transformers_cache/
+.cache/
+huggingface_cache/
+torch_cache/
+nltk_data/
+textblob_corpora/
+
+# Scraped Content Cache
+scraped_cache/
+content_cache/
+url_cache/
+
+# Log Files
+*.log
+logs/
+log/
+flask.log
+gunicorn.log
+access.log
+error.log
+scraping.log
+analysis.log
+
+# Temporary Files
+tmp/
+temp/
+.tmp/
+*.tmp
+*.temp
+
+# Test Coverage
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Flask Instance
+instance/
+
+# Scrapy (if used for web scraping)
+.scrapy
+
+# Celery (if used for async tasks)
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# Documentation builds
+docs/_build/
+
+# Backup files
+*.bak
+*.backup
+backup/
+
+# Data files (optional - remove if you want to track data)
+data/
+datasets/
+*.csv
+*.json
+*.jsonl
+*.xlsx
+*.xls
+
+# Analysis Results
+results/
+output/
+exports/
+reports/
+
+# Deployment Files
+docker-compose.override.yml
+.dockerignore.local
+Dockerfile.local
+
+# SSL Certificates & Keys
+*.pem
+*.key
+*.crt
+*.cert
+ssl/
+certificates/
+
+# Cloud & Deployment Secrets
+.aws/
+.gcloud/
+.azure/
+terraform.tfstate*
+.terraform/
+
+# Package & Distribution
+*.tar.gz
+*.zip
+*.rar
+*.7z
+
+# Media Files (if not tracked)
+media/
+uploads/
+static/uploads/
+user_content/
+
+# Monitoring & Analytics
+analytics/
+metrics/
+prometheus/
+grafana/
+
+# CI/CD
+.github/workflows/secrets
+.gitlab-ci-local.yml
+.travis.yml.local
+
+# ===================================================================
+# CredibilityGuard Specific Exclusions
+# ===================================================================
+
+# Analysis Archives
+analysis_archives/
+credibility_reports/
+batch_analysis_results/
+
+# Model Training Data (if applicable)
+training_data/
+validation_data/
+model_checkpoints/
+
+# Web Scraping Results
+scraped_articles/
+content_extracts/
+url_metadata/
+
+# Custom Configuration
+custom_models/
+user_configs/
+domain_whitelist.json
+blacklist_urls.json
+
+# Performance Benchmarks
+benchmarks/
+performance_tests/
+load_test_results/
+
+# User Data (GDPR Compliance)
+user_data/
+personal_content/
+private_analyses/
+
+# API Keys & Credentials
+api_keys.json
+credentials/
+fact_check_apis.json
+external_services.env
+
+# Large Language Models (if custom trained)
+*.bin
+*.pt
+*.safetensors
+pytorch_model.bin
+tf_model.h5
+model.onnx
+
+# Browser Data (if using Selenium)
+browser_cache/
+downloads/
+screenshots/
+
+# Notification & Alert Configs
+slack_webhooks.json
+email_configs.json
+notification_settings.json
+
+# ===================================================================
+# Production Deployment Exclusions
+# ===================================================================
+
+# Kubernetes
+*.yaml.local
+*.yml.local
+kustomization.yaml.local
+
+# Docker
+docker-compose.prod.yml
+docker-compose.staging.yml
+Dockerfile.prod
+.dockerignore.prod
+
+# Load Balancer Configs
+nginx.conf.local
+apache.conf.local
+haproxy.cfg.local
+
+# Database Backups
+db_backups/
+*.sql.gz
+*.dump
+
+# ===================================================================
+# Development & Testing Exclusions
+# ===================================================================
+
+# Test Databases
+test_*.db
+test_*.sqlite
+*_test.db
+
+# Sample Data
+sample_articles/
+demo_content/
+test_urls.txt
+
+# Debug Files
+debug/
+debug_*.json
+memory_profile.json
+performance_profile.json
+
+# Experimental Features
+experimental/
+prototype/
+spike/
+poc/
+
+# ===================================================================
+# Security & Privacy
+# ===================================================================
+
+# Never commit these sensitive files:
+# - Database files with real user data
+# - API keys and credentials
+# - SSL certificates and private keys
+# - User-generated content
+# - Internal configuration files
+# - Log files with sensitive information
+
+# ===================================================================
+# Performance Considerations
+# ===================================================================
+
+# Large files that should not be in git:
+# - ML model binaries > 100MB
+# - Database files > 50MB
+# - Media files > 25MB
+# - Archive files > 10MB
+# - Log files > 5MB
+
+# ===================================================================
+# Notes for Contributors
+# ===================================================================
+
+# Always add sensitive files to .gitignore BEFORE committing
+# Use git-secrets or similar tools to prevent accidental commits
+# Consider using git-lfs for large files if necessary
+# Review .gitignore regularly as project evolves
+# Document any special exclusions in README.md
+
+# ===================================================================
+# Platform-Specific Additions
+# ===================================================================
+
+# Windows
+*.ini
+*.lnk
+$RECYCLE.BIN/
+
+# macOS
+.AppleDouble/
+.LSOverride
+Icon?
+.DocumentRevisions-V100
+.fseventsd
+.TemporaryItems
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Linux
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ===================================================================
+# Additional Tool Exclusions
+# ===================================================================
+
+# Coverage.py
+.coverage
+.coverage.*
+
+# pytest
+.pytest_cache/
+.cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/

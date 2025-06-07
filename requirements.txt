@@ -1,0 +1,372 @@
+# ===================================================================
+# CredibilityGuard - Production Requirements
+# Flask-based AI-powered credibility analysis with database integration
+# ===================================================================
+
+# Core Flask Dependencies
+Flask>=2.3.0,<3.0.0
+Flask-CORS>=4.0.0,<5.0.0
+
+# Data Science & Machine Learning
+pandas>=1.5.0,<2.1.0
+numpy>=1.24.0,<1.25.0
+scikit-learn>=1.3.0,<1.4.0
+
+# Natural Language Processing
+nltk>=3.8.0,<3.9.0
+textblob>=0.17.0,<0.18.0
+requests>=2.31.0,<3.0.0
+
+# Content Quality & Readability Analysis
+textstat>=0.7.0,<0.8.0
+py-readability-metrics>=1.4.0,<2.0.0
+
+# BERT & Transformers (Enhanced AI)
+transformers>=4.30.0,<4.35.0
+torch>=2.0.0,<2.1.0
+tokenizers>=0.13.0,<0.14.0
+
+# Web Scraping & Content Extraction
+beautifulsoup4>=4.12.0,<5.0.0
+lxml>=4.9.0,<5.0.0
+html5lib>=1.1,<2.0
+
+# URL Processing & Validation
+validators>=0.20.0,<1.0.0
+urllib3>=1.26.0,<2.0.0
+
+# Optional: GPU Acceleration (uncomment if CUDA available)
+# torch>=2.0.0+cu118 --find-links https://download.pytorch.org/whl/torch_stable.html
+# torchaudio>=2.0.0+cu118 --find-links https://download.pytorch.org/whl/torch_stable.html
+
+# Database
+# SQLite is built into Python, no additional requirements needed
+
+# Production Web Server
+gunicorn>=21.0.0,<22.0.0
+
+# Security & Performance
+Werkzeug>=2.3.0,<3.0.0
+MarkupSafe>=2.1.0,<3.0.0
+itsdangerous>=2.1.0,<3.0.0
+click>=8.1.0,<9.0.0
+
+# HTTP & Networking
+certifi>=2023.5.7
+charset-normalizer>=3.1.0,<4.0.0
+idna>=3.4,<4.0
+
+# Scientific Computing (Core Dependencies)
+scipy>=1.10.0,<1.12.0
+threadpoolctl>=3.1.0,<4.0.0
+
+# Text Processing & Regex
+regex>=2023.6.3,<2024.0.0
+
+# Hugging Face Ecosystem
+huggingface-hub>=0.15.0,<0.17.0
+safetensors>=0.3.0,<0.4.0
+
+# File I/O & Serialization
+PyYAML>=6.0,<7.0
+tqdm>=4.65.0,<5.0.0
+
+# Date & Time Utilities
+python-dateutil>=2.8.0,<3.0.0
+pytz>=2023.3
+
+# ===================================================================
+# Optional Development Dependencies
+# Uncomment for development environment
+# ===================================================================
+
+# Testing Framework
+# pytest>=7.4.0,<8.0.0
+# pytest-cov>=4.1.0,<5.0.0
+# pytest-flask>=1.2.0,<2.0.0
+
+# Code Quality & Formatting
+# black>=23.7.0,<24.0.0
+# flake8>=6.0.0,<7.0.0
+# isort>=5.12.0,<6.0.0
+# mypy>=1.5.0,<2.0.0
+
+# Documentation
+# Sphinx>=7.1.0,<8.0.0
+# sphinx-rtd-theme>=1.3.0,<2.0.0
+
+# ===================================================================
+# Optional Production Monitoring
+# Uncomment for production monitoring
+# ===================================================================
+
+# Metrics & Monitoring
+# prometheus-client>=0.17.0,<1.0.0
+# structlog>=23.1.0,<24.0.0
+
+# Caching
+# redis>=4.6.0,<5.0.0
+# Flask-Caching>=2.1.0,<3.0.0
+
+# Rate Limiting
+# Flask-Limiter>=3.4.0,<4.0.0
+
+# Advanced Database (if needed instead of SQLite)
+# SQLAlchemy>=2.0.0,<2.1.0
+# Flask-SQLAlchemy>=3.0.0,<4.0.0
+# psycopg2-binary>=2.9.0,<3.0.0  # PostgreSQL
+# pymongo>=4.3.0,<5.0.0          # MongoDB
+
+# ===================================================================
+# Advanced Content Analysis (Optional Extensions)
+# ===================================================================
+
+# Language Detection
+# langdetect>=1.0.9,<2.0.0
+# polyglot>=16.7.4,<17.0.0
+
+# Advanced NLP
+# spacy>=3.6.0,<4.0.0
+# spacy-transformers>=1.2.0,<2.0.0
+
+# Fact-checking APIs Integration
+# newspaper3k>=0.2.8,<1.0.0
+# feedparser>=6.0.0,<7.0.0
+
+# Content Similarity & Plagiarism Detection
+# sentence-transformers>=2.2.0,<3.0.0
+# scikit-learn>=1.3.0,<1.4.0
+
+# ===================================================================
+# Platform-Specific Notes
+# ===================================================================
+
+# Windows Users:
+# If you encounter issues with lxml installation on Windows, try:
+# pip install --only-binary=lxml lxml
+
+# macOS Users (Apple Silicon):
+# For M1/M2 Macs, torch should automatically detect MPS acceleration
+# No special configuration needed
+
+# Linux Users:
+# For CUDA support, uncomment the GPU acceleration lines above
+# Ensure CUDA toolkit is installed: https://developer.nvidia.com/cuda-downloads
+
+# ===================================================================
+# Installation Instructions
+# ===================================================================
+
+# Basic Installation:
+# pip install -r requirements.txt
+
+# Development Installation:
+# pip install -r requirements.txt
+# # Uncomment development dependencies above and run again
+
+# Production Installation:
+# pip install --no-cache-dir -r requirements.txt
+
+# Docker Installation:
+# FROM python:3.9-slim
+# COPY requirements.txt .
+# RUN pip install --no-cache-dir -r requirements.txt
+
+# ===================================================================
+# Version Compatibility Matrix
+# ===================================================================
+
+# Python: 3.8, 3.9, 3.10, 3.11 (Recommended: 3.9+)
+# Flask: 2.3.x (LTS)
+# transformers: 4.30+ (Multi-language BERT support)
+# torch: 2.0+ (Stable API)
+# SQLite: 3.35+ (FTS5 support)
+# BeautifulSoup: 4.12+ (Modern HTML parsing)
+
+# ===================================================================
+# Approximate Package Sizes (for planning)
+# ===================================================================
+
+# Core packages: ~180MB
+# BERT/Transformers: ~500MB 
+# Torch (CPU): ~200MB
+# Torch (CUDA): ~2GB
+# Web scraping libs: ~50MB
+# NLP libraries: ~100MB
+# Total (CPU): ~1.03GB
+# Total (GPU): ~2.8GB
+
+# ===================================================================
+# Security Considerations
+# ===================================================================
+
+# Regular updates recommended:
+# pip list --outdated
+# pip install --upgrade package_name
+
+# Security scan:
+# pip-audit (install separately: pip install pip-audit)
+# safety check (install separately: pip install safety)
+
+# ===================================================================
+# Performance Optimization Tips
+# ===================================================================
+
+# For faster startup (production):
+# Set TRANSFORMERS_OFFLINE=1 to prevent online model checks
+# Pre-download models during container build
+
+# For memory optimization:
+# Use torch.jit.script() for model optimization
+# Consider model quantization for mobile deployment
+
+# Database optimization:
+# Enable WAL mode for SQLite: PRAGMA journal_mode=WAL;
+# Regular VACUUM and ANALYZE operations
+
+# Web scraping optimization:
+# Use session pooling for multiple requests
+# Implement request caching for repeated URLs
+
+# ===================================================================
+# Troubleshooting Common Issues
+# ===================================================================
+
+# Issue: ImportError for transformers
+# Solution: pip install --upgrade transformers torch
+
+# Issue: NLTK data not found
+# Solution: python -c "import nltk; nltk.download('vader_lexicon'); nltk.download('punkt'); nltk.download('stopwords')"
+
+# Issue: TextBlob corpora not found
+# Solution: python -c "import textblob; textblob.download_corpora()"
+
+# Issue: BeautifulSoup parser not found
+# Solution: pip install lxml html5lib
+
+# Issue: Memory issues with BERT
+# Solution: Reduce batch size or use CPU-only torch
+
+# Issue: Slow startup
+# Solution: Use gunicorn with preload: gunicorn --preload
+
+# Issue: SQLite database locked
+# Solution: Enable WAL mode and check file permissions
+
+# Issue: Web scraping blocked
+# Solution: Add proper User-Agent headers and respect robots.txt
+
+# Issue: SSL certificate errors
+# Solution: pip install --upgrade certifi requests
+
+# ===================================================================
+# Environment Variables (Optional)
+# ===================================================================
+
+# TRANSFORMERS_CACHE=/path/to/cache  # Custom model cache
+# TOKENIZERS_PARALLELISM=false       # Disable tokenizer warnings
+# OMP_NUM_THREADS=4                  # Limit CPU threads
+# CUDA_VISIBLE_DEVICES=0             # Select GPU device
+# DATABASE_PATH=/path/to/db.sqlite   # Custom database location
+# USER_AGENT=CredibilityGuard/1.0    # Custom scraping user agent
+# REQUEST_TIMEOUT=30                 # Web request timeout in seconds
+# MAX_CONTENT_LENGTH=1000000         # Max scraped content size (1MB)
+
+# ===================================================================
+# CredibilityGuard Specific Features
+# ===================================================================
+
+# This requirements file supports:
+# ✅ Multi-language content analysis (DE/EN/FR/ES)
+# ✅ URL scraping and content extraction
+# ✅ Advanced readability scoring
+# ✅ Bias detection and political leaning analysis
+# ✅ Source credibility assessment
+# ✅ Fact-checking integration capabilities
+# ✅ Real-time content quality scoring
+# ✅ SQLite full-text search with FTS5
+# ✅ Production-ready web scraping
+# ✅ Comprehensive error handling
+# ✅ Dark/Light mode web interface
+# ✅ Multi-dimensional credibility scoring
+
+# ===================================================================
+# Development Workflow Dependencies
+# ===================================================================
+
+# For local development, also consider:
+# jupyter>=1.0.0                    # Interactive development
+# ipython>=8.0.0                    # Enhanced REPL
+# matplotlib>=3.7.0                 # Data visualization
+# seaborn>=0.12.0                   # Statistical plotting
+# plotly>=5.15.0                    # Interactive charts
+
+# ===================================================================
+# Production Deployment Notes
+# ===================================================================
+
+# Memory requirements:
+# - Minimum: 2GB RAM
+# - Recommended: 4GB+ RAM
+# - With BERT models: 6GB+ RAM
+
+# CPU requirements:
+# - Minimum: 2 cores
+# - Recommended: 4+ cores
+# - GPU optional but recommended for large-scale analysis
+
+# Storage requirements:
+# - Base installation: ~1GB
+# - Model cache: ~2GB
+# - Database growth: ~1MB per 1000 analyses
+# - Logs and temp files: ~100MB
+
+# Network requirements:
+# - Initial model download: ~500MB
+# - Web scraping: Variable bandwidth
+# - API responses: <1KB typical
+
+# ===================================================================
+# Legal and Ethical Considerations
+# ===================================================================
+
+# Web scraping considerations:
+# - Always respect robots.txt
+# - Implement rate limiting
+# - Use appropriate User-Agent headers
+# - Consider website terms of service
+# - Cache results to minimize requests
+
+# Content analysis ethics:
+# - Transparent scoring methodology
+# - No personal data storage without consent
+# - Bias-aware algorithm design
+# - Regular model evaluation and updates
+
+# ===================================================================
+# Support and Community
+# ===================================================================
+
+# For issues with specific packages:
+# - Flask: https://github.com/pallets/flask
+# - Transformers: https://github.com/huggingface/transformers
+# - BeautifulSoup: https://www.crummy.com/software/BeautifulSoup/
+# - NLTK: https://github.com/nltk/nltk
+
+# CredibilityGuard specific support:
+# - Documentation: README.md
+# - Issues: GitHub Issues
+# - Discussions: GitHub Discussions
+
+# ===================================================================
+# License Information
+# ===================================================================
+
+# CredibilityGuard: MIT License
+# Flask: BSD-3-Clause License
+# Transformers: Apache-2.0 License
+# BeautifulSoup: MIT License
+# NLTK: Apache-2.0 License
+# TextBlob: MIT License
+
+# Always check individual package licenses for compliance
